@@ -63,8 +63,8 @@ function addResource(resource) {
 		});
 }
 
-// not sure yet
-function getProjectByID(projects_id) {
+// GET LIST OF TASKS FOR A PROJECT BY ID OF PROJECT!
+function getProjectTasks(projects_id) {
 	return db("projects")
 		.where({ projects_id })
 		.join("tasks", "projects.id", "=", "tasks.projects_id")

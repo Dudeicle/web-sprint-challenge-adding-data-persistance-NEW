@@ -4,7 +4,7 @@ const Project = require("./project-model.js");
 
 const router = express.Router();
 
-// GET PROJECTS
+// GET PROJECTS --- WORKING
 router.get("/", (req, res) => {
 	Project.getProjects()
 		.then((projects) => {
@@ -13,9 +13,9 @@ router.get("/", (req, res) => {
 		.catch((error) => {
 			res.status(500).json({ message: "Failed to get list of projects" });
 		});
-});
+}); // WORKING
 
-// GET TASKS
+// GET TASKS --- WORKING
 router.get("/tasks", (req, res) => {
 	Project.getTasks()
 		.then((tasks) => {
@@ -26,7 +26,7 @@ router.get("/tasks", (req, res) => {
 		});
 });
 
-// GET RESOURCES
+// GET RESOURCES --- WORKING
 router.get("/resources", (req, res) => {
 	Project.getResources()
 		.then((resources) => {
@@ -37,7 +37,7 @@ router.get("/resources", (req, res) => {
 		});
 });
 
-// GET PROJECT BY ID
+// GET PROJECT BY ID --- WORKING
 router.get("/:id", (req, res) => {
 	const { id } = req.params;
 
@@ -54,7 +54,7 @@ router.get("/:id", (req, res) => {
 		});
 });
 
-// POST PROJECT
+// POST PROJECT --- WORKING
 router.post("/", (req, res) => {
 	const projectData = req.body;
 
@@ -67,7 +67,7 @@ router.post("/", (req, res) => {
 		});
 });
 
-// POST TASK
+// POST TASK --- WORKING
 router.post("/tasks", (req, res) => {
 	const taskData = req.body;
 
@@ -80,7 +80,7 @@ router.post("/tasks", (req, res) => {
 		});
 });
 
-// POST RESOURCE
+// POST RESOURCE --- WORKING
 router.post("/resources", (req, res) => {
 	const resourceData = req.body;
 
