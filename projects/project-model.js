@@ -6,6 +6,8 @@ module.exports = {
 	getResources,
 	getProjectByID,
 	getProjectTasks,
+	getProjectResources,
+	getProjectsUsingResource,
 	addProject,
 	addTask,
 	addResource,
@@ -14,18 +16,18 @@ module.exports = {
 // GET REQUESTS
 function getProjects() {
 	return db("projects");
-}
+} // WORKING
 function getTasks() {
 	return db("tasks");
-}
+} // WORKING
 function getResources() {
 	return db("resources");
-}
+} // WORKING
 
 // GET PROJECT BY ID
 function getProjectByID(id) {
 	return db("projects").where("id", "=", id).first();
-}
+} // WORKING
 
 // ADDING A PROJECT TO THE LIST OF PROJECTS
 function addProject(project) {
@@ -37,7 +39,7 @@ function addProject(project) {
 
 			return getProjectByID(id);
 		});
-}
+} // WORKING
 
 // ADDING A TASK TO THE LIST OF TASKS
 function addTask(task) {
@@ -49,7 +51,7 @@ function addTask(task) {
 
 			return getTasks;
 		});
-}
+} // WORKING
 
 // ADDING A RESOURCE TO THE LIST OF THE RESOURCES
 function addResource(resource) {
@@ -61,9 +63,21 @@ function addResource(resource) {
 
 			return getResources;
 		});
-}
+} // WORKING
 
-// GET LIST OF TASKS FOR A PROJECT BY ID OF PROJECT!
+// STRETCH //
+
+// GET LIST OF PROJECT RESOURCES
+function getProjectResources(id) {
+	return db
+		.select("projects.id", "tasks.resources_id", "resources.name")
+		.from("projects")
+		.where("projects.id", "=", id)
+		.join("tasks", "projects.id", "=", "tasks.projects_id")
+		.join("resources", "tasks.resources_id", "=", "resources.id");
+} // WORKING
+
+// GET LIST OF PROJECT TASKS!
 function getProjectTasks(projects_id) {
 	return db("projects")
 		.where({ projects_id })
@@ -75,4 +89,14 @@ function getProjectTasks(projects_id) {
 			"projects.name",
 			"projects.project_description"
 		);
-}
+} // WORKING
+
+// GET LIST OF PROJECTS USING A PARTICULAR RESOURCE
+function getProjectsUsingResource(id) {
+	return db
+		.select("resources.id", "resources.name")
+		.from("projects")
+		.where("projects.id", "=", id)
+		.join("tasks", "projects.id", "=", "tasks.projects_id")
+		.join("resources", "tasks.resources_id", "=", "resources.id");
+} // I CANNOT UNDERSTAND WHY THIS WONT WORK, WILL NOT RETURN A SINGLE RESOURCE BY ID! RETURN NOT RETURN ANYTHING AT ALL! ALL I GET IS AN EMPTY ARRAY HOWEVER I WRITE THIS!

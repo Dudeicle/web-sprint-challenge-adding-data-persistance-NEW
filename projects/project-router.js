@@ -4,6 +4,8 @@ const Project = require("./project-model.js");
 
 const router = express.Router();
 
+// GET REQUESTS -------------------------//
+
 // GET PROJECTS --- WORKING
 router.get("/", (req, res) => {
 	Project.getProjects()
@@ -54,6 +56,8 @@ router.get("/:id", (req, res) => {
 		});
 });
 
+// POST REQUESTS ----------------------------//
+
 // POST PROJECT --- WORKING
 router.post("/", (req, res) => {
 	const projectData = req.body;
@@ -93,6 +97,27 @@ router.post("/resources", (req, res) => {
 		});
 });
 
+// STRETCH REQUESTS ------------------------ //
+
+// GET PROJECT RESOURCES
+router.get("/:id/resources", (req, res) => {
+	const { id } = req.params;
+
+	Project.getProjectResources(id)
+		.then((projectResources) => {
+			if (projectResources) {
+				res.json(projectResources);
+			} else {
+				res
+					.status(404)
+					.json({ message: "Could not find the list of resources for the project with given ID" });
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({ message: "Failed to get response from database" });
+		});
+});
+
 // GET PROJECT TASKS!
 router.get("/:id/tasks", (req, res) => {
 	const { id } = req.params;
@@ -108,7 +133,25 @@ router.get("/:id/tasks", (req, res) => {
 			}
 		})
 		.catch((error) => {
-			res.status(500).json({ message: "Failed to get single project!" });
+			res.status(500).json({ message: "Failed to get response from database" });
+		});
+});
+
+// GET PROJECTS USING A PARTICULAR RESOURCE
+// DOES NOT WORK, CANNOT UNDERSTAND WHY IT DOESN'T WORK
+router.get("/resources/:id", (req, res) => {
+	const id = req.body;
+
+	Project.getProjectsUsingResource(id)
+		.then((projectResourcesUsed) => {
+			if (projectResourcesUsed) {
+				res.status(201).json(projectResourcesUsed);
+			} else {
+				res.status(404).json({ message: "Cannot find project with given ID!" });
+			}
+		})
+		.catch((error) => {
+			res.status(500).json({ message: "Failed to access data in database!" });
 		});
 });
 
